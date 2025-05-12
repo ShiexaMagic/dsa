@@ -1,0 +1,802 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elven Technologies | Fireproofing the Future</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#11BF4E',
+                        secondary: '#358C54',
+                        dark: '#151515',
+                        darker: '#022601',
+                        accent: '#B2D977'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #151515;
+            color: #f8fafc;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        
+        .gradient-overlay {
+            background: linear-gradient(180deg, rgba(21,21,21,0.8) 0%, rgba(2,38,1,0.9) 100%);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(241, 245, 249, 0.1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(17, 191, 78, 0.25);
+            border-color: rgba(17, 191, 78, 0.5);
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(21,21,21,0.7) 0%, rgba(2,38,1,0.9) 100%);
+            border: 1px solid rgba(53, 140, 84, 0.2);
+        }
+        
+        .leaf-pattern {
+            background-image: radial-gradient(circle, rgba(17, 191, 78, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 8px rgba(17, 191, 78, 0.6);
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #11BF4E 0%, #358C54 100%);
+        }
+        
+        .logo-img {
+            height: 40px; /* Adjust as needed */
+            width: auto;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Inter, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-0{bottom:0px}.bottom-10{bottom:2.5rem}.left-0{left:0px}.right-0{right:0px}.z-10{z-index:10}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-10{margin-bottom:2.5rem}.mb-12{margin-bottom:3rem}.mb-16{margin-bottom:4rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-2{margin-left:0.5rem}.ml-3{margin-left:0.75rem}.mr-2{margin-right:0.5rem}.mr-4{margin-right:1rem}.mt-12{margin-top:3rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-12{height:3rem}.h-16{height:4rem}.h-20{height:5rem}.h-48{height:12rem}.h-64{height:16rem}.h-auto{height:auto}.h-full{height:100%}.h-screen{height:100vh}.h-2{height:0.5rem}.w-10{width:2.5rem}.w-12{width:3rem}.w-16{width:4rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-3xl{max-width:48rem}.max-w-7xl{max-width:80rem}.flex-shrink-0{flex-shrink:0}@keyframes bounce{0%, 100%{transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)}50%{transform:none;animation-timing-function:cubic-bezier(0,0,0.2,1)}}.animate-bounce{animation:bounce 1s infinite}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-12{gap:3rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-x-4 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem * var(--tw-space-x-reverse));margin-left:calc(1rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-6 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1.5rem * var(--tw-space-x-reverse));margin-left:calc(1.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-8 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(2rem * var(--tw-space-x-reverse));margin-left:calc(2rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-800{--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.bg-dark{--tw-bg-opacity:1;background-color:rgb(21 21 21 / var(--tw-bg-opacity, 1))}.bg-dark\/50{background-color:rgb(21 21 21 / 0.5)}.bg-dark\/90{background-color:rgb(21 21 21 / 0.9)}.bg-darker{--tw-bg-opacity:1;background-color:rgb(2 38 1 / var(--tw-bg-opacity, 1))}.bg-primary{--tw-bg-opacity:1;background-color:rgb(17 191 78 / var(--tw-bg-opacity, 1))}.bg-primary\/10{background-color:rgb(17 191 78 / 0.1)}.bg-secondary{--tw-bg-opacity:1;background-color:rgb(53 140 84 / var(--tw-bg-opacity, 1))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.bg-gradient-to-t{background-image:linear-gradient(to top, var(--tw-gradient-stops))}.from-darker\/90{--tw-gradient-from:rgb(2 38 1 / 0.9) var(--tw-gradient-from-position);--tw-gradient-to:rgb(2 38 1 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-primary{--tw-gradient-from:#11BF4E var(--tw-gradient-from-position);--tw-gradient-to:rgb(17 191 78 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-accent{--tw-gradient-to:#B2D977 var(--tw-gradient-to-position)}.to-transparent{--tw-gradient-to:transparent var(--tw-gradient-to-position)}.to-secondary{--tw-gradient-to:#358C54 var(--tw-gradient-to-position)}.bg-clip-text{-webkit-background-clip:text;background-clip:text}.object-cover{object-fit:cover}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-12{padding-top:3rem;padding-bottom:3rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-20{padding-top:5rem;padding-bottom:5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.pt-20{padding-top:5rem}.pt-8{padding-top:2rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-tight{line-height:1.25}.text-primary{--tw-text-opacity:1;color:rgb(17 191 78 / var(--tw-text-opacity, 1))}.text-secondary{--tw-text-opacity:1;color:rgb(53 140 84 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-transparent{color:transparent}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-500{transition-duration:500ms}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-dark:hover{--tw-bg-opacity:1;background-color:rgb(21 21 21 / var(--tw-bg-opacity, 1))}.hover\:bg-primary\/10:hover{background-color:rgb(17 191 78 / 0.1)}.hover\:bg-slate-800:hover{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:opacity-90:hover{opacity:0.9}.focus\:border-transparent:focus{border-color:transparent}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-primary:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(17 191 78 / var(--tw-ring-opacity, 1))}@media (min-width: 640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width: 768px){.md\:mb-0{margin-bottom:0px}.md\:block{display:block}.md\:flex{display:flex}.md\:hidden{display:none}.md\:w-1\/2{width:50%}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:text-7xl{font-size:4.5rem;line-height:1}}@media (min-width: 1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}</style></head>
+<body class="antialiased">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-dark/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center ai-style-change-1">
+                    <a href="#" class="flex items-center">
+                        <!-- Replace this with your actual logo image -->
+                        <img src="https://static.wixstatic.com/media/847d72_b7a5d845504240afb0067e0d89543f48~mv2.png/v1/fill/w_59,h_64,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Elven%20Logo_edited.png" alt="Elven Technologies Logo" class="logo-img">
+                    <span class="ml-3 text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent ai-style-change-2">ELVEN TECHNOLOGIES</span></a>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-slate-300 hover:text-white font-medium transition">Home</a>
+                    <a href="#about" class="text-slate-300 hover:text-white font-medium transition">About</a>
+                    <a href="#solutions" class="text-slate-300 hover:text-white font-medium transition">Solutions</a>
+                    <a href="#case-studies" class="text-slate-300 hover:text-white font-medium transition">Case Studies</a>
+                    <a href="#news" class="text-slate-300 hover:text-white font-medium transition">News</a>
+                    <a href="#contact" class="text-slate-300 hover:text-white font-medium transition">Contact</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <a href="#contact" class="px-6 py-2 rounded-full btn-gradient text-white font-medium hover:opacity-90 transition">Get in Touch</a>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-slate-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darker border-t border-slate-800">
+            <div class="px-4 py-3 space-y-3">
+                <a href="#home" class="block text-slate-300 hover:text-white transition">Home</a>
+                <a href="#about" class="block text-slate-300 hover:text-white transition">About</a>
+                <a href="#solutions" class="block text-slate-300 hover:text-white transition">Solutions</a>
+                <a href="#case-studies" class="block text-slate-300 hover:text-white transition">Case Studies</a>
+                <a href="#news" class="block text-slate-300 hover:text-white transition">News</a>
+                <a href="#contact" class="block text-slate-300 hover:text-white transition">Contact</a>
+                <a href="#contact" class="block mt-2 px-4 py-2 rounded-full btn-gradient text-white font-medium text-center">Get in Touch</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center overflow-hidden">
+        <video autoplay="" muted="" loop="" class="hero-video">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-fire-explosion-1720-large.mp4" type="video/mp4">
+        </video>
+        
+        <div class="gradient-overlay absolute inset-0"></div>
+        
+        <img src="https://static.wixstatic.com/media/847d72_41495c0d2bf84a3a903f386b4a319064~mv2.png" style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; z-index: 1; pointer-events: none;"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20">
+            <div class="max-w-3xl">
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6 glow-text">
+                    <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Built for the Heat</span><br>
+                    Fireproofing the Future
+                </h1>
+                <p class="text-xl text-slate-300 mb-10">
+                    Revolutionary fireproof materials and protective solutions for electric vehicles, aerospace, and industrial safety.
+                    Engineered to withstand extreme conditions while pushing the boundaries of material science.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#solutions" class="px-8 py-3 rounded-full btn-gradient text-white font-medium hover:opacity-90 transition">
+                        Explore Solutions
+                    </a>
+                    <a href="#contact" class="px-8 py-3 rounded-full bg-dark border border-slate-700 text-white font-medium hover:bg-slate-800 transition">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-0 right-0 flex justify-center">
+            <a href="#about" class="animate-bounce text-slate-300 hover:text-white">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 leaf-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-medium">INNOVATION IN PROTECTION</span>
+                <h2 class="text-4xl font-bold mt-2">Redefining Safety Through Science</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="relative rounded-xl overflow-hidden border border-slate-700">
+                        <img src="https://static.wixstatic.com/media/847d72_756354a7f7a44dfda2a7edad8a07e4c4~mv2.jpg" alt="Elven Technologies Lab" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-darker/90 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
+                                    <i class="fas fa-flask text-white text-xl"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-slate-300">Dream Team</p>
+                                    <p class="font-medium">Vaike-Marja, Estonia</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <span class="text-secondary font-medium">OUR STORY</span>
+                    <h3 class="text-3xl font-bold mt-2 mb-6">Born From Necessity, Built With Purpose</h3>
+                    <p class="text-slate-300 mb-6">
+                        Founded in 2015 after witnessing catastrophic battery fires in early electric vehicles, Elven Technologies set out to create
+                        materials that could withstand extreme thermal runaway events without compromising weight or performance.
+                    </p>
+                    <p class="text-slate-300 mb-8">
+                        Today, our team of 120 material scientists, engineers, and safety experts develop cutting-edge solutions trusted by leading
+                        automotive, aerospace, and defense organizations worldwide.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-dark/50 border border-slate-700 rounded-lg p-4">
+                            <div class="text-primary text-3xl mb-2">
+                                <i class="fas fa-atom"></i>
+                            </div>
+                            <h4 class="font-bold mb-1">Material Science</h4>
+                            <p class="text-sm text-slate-300">Proprietary nano-ceramic composites</p>
+                        </div>
+                        <div class="bg-dark/50 border border-slate-700 rounded-lg p-4">
+                            <div class="text-primary text-3xl mb-2">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4 class="font-bold mb-1">Safety First</h4>
+                            <p class="text-sm text-slate-300">Exceeds all industry safety standards</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="py-20 bg-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-medium">OUR SOLUTIONS</span>
+                <h2 class="text-4xl font-bold mt-2">Engineered for Extreme Conditions</h2>
+                <p class="max-w-2xl mx-auto text-slate-300 mt-4">
+                    From battery enclosures to personal protective equipment, our materials are tested beyond industry standards
+                    to ensure reliability when it matters most.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Battery Enclosures -->
+                <div class="product-card bg-dark rounded-xl p-6">
+                    <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                        <i class="fas fa-car-battery text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Battery Enclosures</h3>
+                    <p class="text-slate-300 mb-4">
+                        Next-generation protection systems for electric vehicle batteries, designed to contain thermal runaway events
+                        and prevent cascading failures.
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>Up to 2 hours of fire containment</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>30% lighter than conventional solutions</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>Modular design for easy integration</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="text-primary font-medium inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Human Protection Suits -->
+                <div class="product-card bg-dark rounded-xl p-6">
+                    <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                        <i class="fas fa-user-astronaut text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Human Protection Suits</h3>
+                    <p class="text-slate-300 mb-4">
+                        Advanced fire-resistant suits for industrial workers, first responders, and aerospace applications with
+                        unprecedented mobility and protection.
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>Withstands 2000°F for 60+ seconds</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>Breathable fabric technology</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>Integrated cooling systems</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="text-primary font-medium inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Fireproof Fabrics -->
+                <div class="product-card bg-dark rounded-xl p-6">
+                    <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                        <i class="fas fa-fire-extinguisher text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Fireproof Fabrics</h3>
+                    <p class="text-slate-300 mb-4">
+                        Proprietary textile solutions for aerospace, marine, and industrial applications that combine lightweight
+                        flexibility with extreme fire resistance.
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>Self-extinguishing within 2 seconds</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>Maintains integrity at 1500°F</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-secondary mr-2"></i>
+                            <span>Custom formulations available</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="text-primary font-medium inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies Section -->
+    <section id="case-studies" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-medium">PROVEN PERFORMANCE</span>
+                <h2 class="text-4xl font-bold mt-2">Real-World Protection</h2>
+                <p class="max-w-2xl mx-auto text-slate-300 mt-4">
+                    Our solutions have been rigorously tested and deployed across industries where failure is not an option.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <!-- EV Battery Test -->
+                <div class="testimonial-card rounded-xl overflow-hidden">
+                    <div class="relative h-64">
+                        <img src="https://static.wixstatic.com/media/847d72_71a0ee8d34c346f395a864f14f94ed2e~mv2.png/v1/fill/w_1110,h_624,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/847d72_71a0ee8d34c346f395a864f14f94ed2e~mv2.png" alt="EV Battery Test" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-darker/90 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-primary text-white text-xs px-3 py-1 rounded-full">Thermal Runaway Test</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-3">EV Battery Containment</h3>
+                        <p class="text-slate-300 mb-4">
+                            Our EV-X1 battery enclosure successfully contained a catastrophic thermal runaway event in independent
+                            testing by the National Renewable Energy Laboratory, preventing fire spread to adjacent cells.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <i class="fas fa-bolt text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-slate-300">Tested by</p>
+                                <p class="font-medium">NREL Energy Labs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Aerospace Application -->
+                <div class="testimonial-card rounded-xl overflow-hidden">
+                    <div class="relative h-64">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80" alt="Aerospace Application" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-darker/90 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-secondary text-white text-xs px-3px-3 py-1 rounded-full">Aerospace</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-3">Spacecraft Fire Protection</h3>
+                        <p class="text-slate-300 mb-4">
+                            Selected by a leading aerospace manufacturer for next-generation crew capsules, our thermal protection
+                            system reduces weight by 40% compared to traditional solutions while exceeding NASA safety requirements.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <i class="fas fa-rocket text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-slate-300">Implemented in</p>
+                                <p class="font-medium">Orion MPCV Program</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-dark/50 border border-slate-700 rounded-xl p-8">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <h3 class="text-2xl font-bold mb-3">Request Our Testing Data</h3>
+                        <p class="text-slate-300">
+                            Access complete test reports, certifications, and performance specifications for all Elven Technologies products.
+                        </p>
+                    </div>
+                    <div class="md:w-1/2 flex justify-end">
+                        <a href="#contact" class="px-8 py-3 rounded-full btn-gradient text-white font-medium hover:opacity-90 transition">
+                            Request Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news" class="py-20 bg-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-medium">LATEST UPDATES</span>
+                <h2 class="text-4xl font-bold mt-2">Industry News &amp; Insights</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- News 1 -->
+                <div class="bg-dark rounded-xl overflow-hidden border border-slate-700">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80" alt="News 1" class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-secondary text-sm">June 15, 2023</span>
+                        <h3 class="text-xl font-bold mt-2 mb-3">Elven Tech Partners With Major EV Manufacturer</h3>
+                        <p class="text-slate-300 mb-4">
+                            Our fireproof battery enclosures selected for next-generation electric trucks, setting new industry safety benchmarks.
+                        </p>
+                        <a href="#" class="text-primary font-medium inline-flex items-center">
+                            Read more <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- News 2 -->
+                <div class="bg-dark rounded-xl overflow-hidden border border-slate-700">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80" alt="News 2" class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-secondary text-sm">May 3, 2023</span>
+                        <h3 class="text-xl font-bold mt-2 mb-3">Breakthrough in Fireproof Textiles</h3>
+                        <p class="text-slate-300 mb-4">
+                            New self-extinguishing fabric technology achieves unprecedented protection-to-weight ratio for aerospace applications.
+                        </p>
+                        <a href="#" class="text-primary font-medium inline-flex items-center">
+                            Read more <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- News 3 -->
+                <div class="bg-dark rounded-xl overflow-hidden border border-slate-700">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1523961132885-eb0e9e4e0a41?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1474&amp;q=80" alt="News 3" class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-secondary text-sm">April 18, 2023</span>
+                        <h3 class="text-xl font-bold mt-2 mb-3">Safety Standards Redefined</h3>
+                        <p class="text-slate-300 mb-4">
+                            Our testing methodology adopted as new industry benchmark for EV battery fire containment systems.
+                        </p>
+                        <a href="#" class="text-primary font-medium inline-flex items-center">
+                            Read more <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="px-8 py-3 rounded-full border border-slate-700 text-white font-medium hover:bg-dark transition inline-flex items-center">
+                    View All Articles <i class="fas fa-newspaper ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investors Section -->
+    <section id="investors" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-primary font-medium">INVESTORS &amp; CAREERS</span>
+                    <h2 class="text-4xl font-bold mt-2 mb-6">Building the Future Together</h2>
+                    <p class="text-slate-300 mb-6">
+                        Elven Technologies is backed by leading venture capital firms and strategic partners who share our vision
+                        for revolutionizing safety through material science innovation.
+                    </p>
+                    <p class="text-slate-300 mb-8">
+                        We're always looking for exceptional talent to join our team of innovators. Explore opportunities to
+                        contribute to groundbreaking technologies that save lives.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#" class="px-6 py-3 rounded-full btn-gradient text-white font-medium hover:opacity-90 transition">
+                            Investor Relations
+                        </a>
+                        <a href="#" class="px-6 py-3 rounded-full bg-dark border border-slate-700 text-white font-medium hover:bg-slate-800 transition">
+                            Careers at Elven
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-dark/50 border border-slate-700 rounded-xl p-8">
+                        <h3 class="text-2xl font-bold mb-6">Recent Achievements</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <i class="fas fa-trophy text-primary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">2023 Material Innovation Award</h4>
+                                    <p class="text-sm text-slate-300">Recognized by the Advanced Materials Society for breakthrough in ceramic composites</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <i class="fas fa-chart-line text-primary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Series D Funding Closed</h4>
+                                    <p class="text-sm text-slate-300">$120M raised to expand production capacity and accelerate R&amp;D</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <i class="fas fa-medal text-primary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">ISO 9001:2023 Certified</h4>
+                                    <p class="text-sm text-slate-300">Quality management system certification achieved across all facilities</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-medium">GET IN TOUCH</span>
+                <h2 class="text-4xl font-bold mt-2">Let's Build Something Extraordinary</h2>
+                <p class="max-w-2xl mx-auto text-slate-300 mt-4">
+                    Whether you're interested in our products, partnership opportunities, or joining our team, we'd love to hear from you.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium mb-2">First Name</label>
+                                <input type="text" id="first-name" class="w-full px-4 py-3 bg-dark border border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="John">
+                            </div>
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium mb-2">Last Name</label>
+                                <input type="text" id="last-name" class="w-full px-4 py-3 bg-dark border border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Doe">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 bg-dark border border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="john@example.com">
+                        </div>
+                        
+                        <div>
+                            <label for="company" class="block text-sm font-medium mb-2">Company</label>
+                            <input type="text" id="company" class="w-full px-4 py-3 bg-dark border border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Acme Inc">
+                        </div>
+                        
+                        <div>
+                            <label for="interest" class="block text-sm font-medium mb-2">Interest</label>
+                            <select id="interest" class="w-full px-4 py-3 bg-dark border border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option>Select an option</option>
+                                <option>Battery Enclosures</option>
+                                <option>Protective Suits</option>
+                                <option>Fireproof Fabrics</option>
+                                <option>Partnership</option>
+                                <option>Investment</option>
+                                <option>Careers</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-3 bg-dark border border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Tell us about your project..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full px-6 py-3 rounded-full btn-gradient text-white font-medium hover:opacity-90 transition">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+                
+                <div>
+                    <div class="bg-dark/50 border border-slate-700 rounded-xl p-8 h-full">
+                        <h3 class="text-2xl font-bold mb-6">Contact Information</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Headquarters</h4>
+                                    <p class="text-slate-300">2155 Pantages Cir<br>Rancho Cordova, Sacramento, CA 95670</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <i class="fas fa-phone-alt text-primary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Phone</h4>
+                                    <p class="text-slate-300">916-827-0713<br>Mon-Fri, 9am-5pm PST</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <i class="fas fa-envelope text-primary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Email</h4>
+                                    <p class="text-slate-300">contact@elventech.net</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-8 border-t border-slate-700">
+                            <h4 class="font-bold mb-4">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-dark border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary/10 transition">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-dark border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary/10 transition">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-dark border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary/10 transition">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-dark border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary/10 transition">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <div class="rounded-xl overflow-hidden h-64">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3128.1234567890123!2d-121.30123456789012!3d38.5890123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809ad123456789ab%3A0x1234567890abcdef!2s2155%20Pantages%20Cir%2C%20Rancho%20Cordova%2C%20CA%2095670!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <a href="#" class="flex items-center mb-6">
+                        <!-- Footer logo - same as header -->
+                        <img src="https://via.placeholder.com/200x50/11BF4E/FFFFFF?text=Elven+Tech+Logo" alt="Elven Technologies Logo" class="logo-img">
+                    </a>
+                    <p class="text-slate-400">
+                        Pioneering fireproof materials and protective solutions for extreme environments.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Solutions</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Battery Enclosures</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Protective Suits</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Fireproof Fabrics</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Custom Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Case Studies</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">News &amp; Blog</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Cookie Policy</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition">Patents</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-slate-500 text-sm mb-4 md:mb-0">
+                    © 2023 Elven Technologies. All rights reserved.
+                </p>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-slate-500 hover:text-white transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-white transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-white transition">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-white transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    // Calculate the scroll position, accounting for fixed header
+                    const headerHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add shadow to navbar on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+
+</body></html>
