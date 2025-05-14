@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Configuration
     const apiKey = "8780a99876523838de6e2ce98fbd3acbd884e8576955ad86085c4d0da76f25c8";
     const searchTerm = "lithium-ion battery fire";
-    const numberOfArticles = 6; // Default number to show on the homepage
+    const numberOfArticles = 3; // Default number to show on the homepage
     
     // DOM Elements
     const newsContainer = document.getElementById("news-container");
