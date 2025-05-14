@@ -285,3 +285,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Initialize news fetch
     fetchNews();
 });
+
+// Remove the Express.js endpoint as it's not needed in the client-side code
+// This would need to be in a separate server file if you implement a backend
