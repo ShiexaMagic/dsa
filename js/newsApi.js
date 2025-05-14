@@ -43,27 +43,13 @@ function displayLoadingState(container) {
  */
 async function fetchBatteryFireNews(apiKey, query, container) {
   try {
-    // Build the API URL with parameters
-    const serpApiUrl = `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&tbm=nws&api_key=${apiKey}`;
-    
-    // Use a CORS proxy to bypass CORS restrictions
-    const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const url = corsProxyUrl + serpApiUrl;
+    const response = await fetch('/api/news');
     
     // Add timeout to prevent hanging requests
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000); // Increased timeout
     
     try {
-      // Fetch data through the CORS proxy
-      const response = await fetch(url, {
-        signal: controller.signal,
-        headers: {
-          'Accept': 'application/json',
-          'Origin': window.location.origin
-        }
-      });
-      
       // Clear timeout since request is complete
       clearTimeout(timeoutId);
       
@@ -189,3 +175,18 @@ function displayErrorMessage(container, message) {
 
 // Initialize news API when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initNewsApi);
+
+export default async function handler(req, res) {
+  try {
+    const apiKey = process.env.SERPAPI_KEY;
+    const query = 'Lithium-Ion Battery Fire';
+    const url = `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&tbm=nws&api_key=${apiKey}`;
+    
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch news' });
+  }
+}
