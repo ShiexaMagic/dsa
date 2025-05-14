@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // DOM Elements
     const newsContainer = document.getElementById("news-container");
     
-    // Fetch news articles
+    // Fetch news articles - keeping your working implementation
     async function fetchNews() {
         try {
             // Try direct fetch to SerpAPI (will likely fail due to CORS)
@@ -68,33 +68,62 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    // Display news in the container
+    // Display news in the container with improved image handling
     function displayNews(articles) {
         // Clear loading placeholder
         newsContainer.innerHTML = "";
         
+        // High-quality fallback images - rotating through these for visual variety
+        const fallbackImages = [
+            "https://images.unsplash.com/photo-1593941707882-a5bba53b0999?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1626438962886-611a9453d22c?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1596998791979-1296130c2c3e?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1582983508991-59607a419255?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1605969488889-aa843a386abf?q=80&w=800&auto=format&fit=crop"
+        ];
+        
         // Create HTML for each article
-        articles.forEach(article => {
+        articles.forEach((article, index) => {
             const articleCard = document.createElement("div");
-            articleCard.className = "product-card bg-dark rounded-xl overflow-hidden";
+            articleCard.className = "product-card bg-dark rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-primary/10";
             
-            // Prepare thumbnail image with fallback
-            const thumbnailUrl = article.thumbnail ? article.thumbnail : "https://via.placeholder.com/300x200/151515/11BF4E?text=Lithium+Ion+Battery";
+            // Improved thumbnail image handling
+            let thumbnailUrl;
+            
+            // Check if article has a high-quality thumbnail (check size if available)
+            if (article.thumbnail && article.thumbnail.includes('http')) {
+                thumbnailUrl = article.thumbnail;
+                
+                // If Google's thumbnail service is used, modify to request larger size
+                if (thumbnailUrl.includes('googleusercontent.com')) {
+                    thumbnailUrl = thumbnailUrl.replace(/=w\d+-h\d+/, '=w800-h450');
+                }
+                
+                // If other common image services, add size parameters when possible
+                if (thumbnailUrl.includes('wp.com')) {
+                    thumbnailUrl = thumbnailUrl + '?w=800';
+                }
+            } else {
+                // Use rotating high-quality fallback images
+                thumbnailUrl = fallbackImages[index % fallbackImages.length];
+            }
             
             // Format date
             const publishedDate = article.date ? new Date(article.date).toLocaleDateString() : "Recent";
             
             articleCard.innerHTML = `
-                <div class="relative h-48">
-                    <img src="${thumbnailUrl}" alt="${article.title}" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-darker/90 via-transparent to-transparent"></div>
+                <div class="relative overflow-hidden h-48 group">
+                    <img src="${thumbnailUrl}" alt="${article.title}" 
+                         class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-darker/90 via-darker/30 to-transparent"></div>
                     <div class="absolute bottom-0 left-0 p-4">
-                        <span class="bg-primary text-white text-xs px-3 py-1 rounded-full">News</span>
+                        <span class="bg-primary text-white text-xs px-3 py-1 rounded-full shadow-md">News</span>
                     </div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold mb-3 hover:text-primary transition">${article.title}</h3>
-                    <p class="text-slate-400 text-sm mb-4">${article.snippet || "Read the full article for more details."}</p>
+                    <h3 class="text-xl font-bold mb-3 hover:text-primary transition line-clamp-2">${article.title}</h3>
+                    <p class="text-slate-400 text-sm mb-4 line-clamp-3">${article.snippet || "Read the full article for more details."}</p>
                     <div class="flex items-center justify-between">
                         <span class="text-xs text-slate-500">${publishedDate}</span>
                         <a href="${article.link}" target="_blank" class="text-primary inline-flex items-center text-sm hover:text-white transition">
@@ -103,6 +132,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                 </div>
             `;
+            
+            // Add a lazy loading attribute to images
+            const imgElement = articleCard.querySelector('img');
+            if (imgElement) {
+                imgElement.setAttribute('loading', 'lazy');
+                
+                // Handle image loading errors by falling back to default images
+                imgElement.onerror = function() {
+                    this.src = fallbackImages[index % fallbackImages.length];
+                };
+            }
             
             newsContainer.appendChild(articleCard);
         });
@@ -122,42 +162,42 @@ document.addEventListener("DOMContentLoaded", function() {
                 snippet: "Industry experts have released updated guidelines for the safe storage and handling of lithium-ion batteries following recent fire incidents.",
                 link: "https://www.example.com/battery-safety",
                 date: "2025-05-01",
-                thumbnail: "https://via.placeholder.com/300x200/151515/11BF4E?text=Safety+Protocols"
+                thumbnail: "https://images.unsplash.com/photo-1593941707882-a5bba53b0999?q=80&w=800&auto=format&fit=crop"
             },
             {
                 title: "Research Breakthrough: Fire-Resistant Battery Materials",
                 snippet: "Scientists have developed a new composite material that could significantly reduce the risk of thermal runaway in lithium-ion batteries.",
                 link: "https://www.example.com/battery-research",
                 date: "2025-04-28",
-                thumbnail: "https://via.placeholder.com/300x200/151515/11BF4E?text=Research"
+                thumbnail: "https://images.unsplash.com/photo-1626438962886-611a9453d22c?q=80&w=800&auto=format&fit=crop"
             },
             {
                 title: "Electric Vehicle Fire Incidents Down 30% with New Technology",
                 snippet: "Implementation of advanced battery management systems has led to a marked decrease in EV fire incidents over the past year.",
                 link: "https://www.example.com/ev-safety",
                 date: "2025-04-22",
-                thumbnail: "https://via.placeholder.com/300x200/151515/11BF4E?text=EV+Safety"
+                thumbnail: "https://images.unsplash.com/photo-1596998791979-1296130c2c3e?q=80&w=800&auto=format&fit=crop"
             },
             {
                 title: "Regulatory Updates: New Standards for Battery Transportation",
                 snippet: "Transportation authorities have introduced stricter regulations for shipping lithium-ion batteries following multiple incidents.",
                 link: "https://www.example.com/battery-regulations",
                 date: "2025-04-15",
-                thumbnail: "https://via.placeholder.com/300x200/151515/11BF4E?text=Regulations"
+                thumbnail: "https://images.unsplash.com/photo-1582983508991-59607a419255?q=80&w=800&auto=format&fit=crop"
             },
             {
                 title: "Industry Leaders Form Coalition to Address Battery Fire Safety",
                 snippet: "Major manufacturers have joined forces to establish best practices and fund research into safer battery technologies.",
                 link: "https://www.example.com/industry-coalition",
                 date: "2025-04-10",
-                thumbnail: "https://via.placeholder.com/300x200/151515/11BF4E?text=Industry+Coalition"
+                thumbnail: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=80&w=800&auto=format&fit=crop"
             },
             {
                 title: "Advanced Fire Suppression Systems for Battery Storage Facilities",
                 snippet: "New specialized fire suppression technology designed specifically for large-scale lithium-ion battery installations shows promising results.",
                 link: "https://www.example.com/fire-suppression",
                 date: "2025-04-05",
-                thumbnail: "https://via.placeholder.com/300x200/151515/11BF4E?text=Fire+Suppression"
+                thumbnail: "https://images.unsplash.com/photo-1605969488889-aa843a386abf?q=80&w=800&auto=format&fit=crop"
             }
         ];
         
@@ -178,13 +218,5 @@ document.addEventListener("DOMContentLoaded", function() {
     fetchNews();
 });
 
-// API endpoint for fetching news
-app.get('/api/news', async (req, res) => {
-  try {
-    const response = await fetch(`https://serpapi.com/search.json?q=lithium-ion%20battery%20fire&tbm=nws&api_key=YOUR_API_KEY`);
-    const data = await response.json();
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// Remove the Express.js endpoint as it's not needed in the client-side code
+// This would need to be in a separate server file if you implement a backend
