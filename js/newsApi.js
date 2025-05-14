@@ -7,8 +7,6 @@
 // Initialize news API with configuration
 function initNewsApi() {
   console.log('Initializing news API...');
-  const apiKey = process.env.SERPAPI_KEY || '299d65578a5261c22a1ee82142b171057004cd8a2ea0b37ba6e02e155d3957a1';
-  const query = 'Lithium-Ion Battery Fire';
   const newsContainer = document.getElementById('news-container');
   
   if (!newsContainer) {
@@ -20,7 +18,7 @@ function initNewsApi() {
   displayLoadingState(newsContainer);
   
   // Fetch news articles
-  fetchBatteryFireNews(apiKey, query, newsContainer);
+  fetchBatteryFireNews(newsContainer);
 }
 
 /**
@@ -36,39 +34,39 @@ function displayLoadingState(container) {
 }
 
 /**
- * Fetches battery fire news from SerpAPI
- * @param {string} apiKey - Your SerpAPI key
- * @param {string} query - Search query
+ * Fetches battery fire news from SerpAPI via our API route
  * @param {HTMLElement} container - Container to display results
  */
-async function fetchBatteryFireNews(apiKey, query, container) {
+async function fetchBatteryFireNews(container) {
   try {
-    const response = await fetch('/api/news');
-    
-    // Add timeout to prevent hanging requests
+    // Set up timeout to prevent hanging requests
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // Increased timeout
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
     
-    try {
-      // Clear timeout since request is complete
-      clearTimeout(timeoutId);
-      
-      // Check if request was successful
-      if (!response.ok) {
-        console.error('API returned error status:', response.status);
-        throw new Error(`API request failed with status: ${response.status}`);
+    // Make request to our serverless function
+    const response = await fetch('/api/news', {
+      signal: controller.signal,
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
       }
-      
-      // Parse JSON response
-      const data = await response.json();
-      console.log('API response data:', data); // Log the response for debugging
-      
-      // Display the news results
-      displayNewsResults(data, container);
-    } catch (fetchError) {
-      console.error('Fetch error details:', fetchError);
-      throw fetchError;
+    });
+    
+    // Clear timeout since request is complete
+    clearTimeout(timeoutId);
+    
+    // Check if request was successful
+    if (!response.ok) {
+      console.error('API returned error status:', response.status);
+      throw new Error(`API request failed with status: ${response.status}`);
     }
+    
+    // Parse JSON response
+    const data = await response.json();
+    console.log('API response data:', data); // Log the response for debugging
+    
+    // Display the news results
+    displayNewsResults(data, container);
   } catch (error) {
     console.error('Error fetching battery fire news:', error);
     
