@@ -8,30 +8,62 @@ document.addEventListener("DOMContentLoaded", function() {
     // DOM Elements
     const newsContainer = document.getElementById("news-container");
     
-    // Fetch news articles - using a CORS proxy
+    // Fetch news articles
     async function fetchNews() {
         try {
-            // Option 1: Use a CORS proxy service
-            const corsProxyUrl = "https://corsproxy.io/?";
-            const targetUrl = `https://serpapi.com/search.json?q=${encodeURIComponent(searchTerm)}&tbm=nws&api_key=${apiKey}`;
-            const response = await fetch(corsProxyUrl + encodeURIComponent(targetUrl));
+            // Try direct fetch to SerpAPI (will likely fail due to CORS)
+            // This is just to check if the API key works
+            const directResponse = await fetch(`https://serpapi.com/search.json?q=${encodeURIComponent(searchTerm)}&tbm=nws&api_key=${apiKey}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).catch(() => null); // Catch CORS errors silently
+            
+            // If direct fetch works (unlikely in browser)
+            if (directResponse && directResponse.ok) {
+                const data = await directResponse.json();
+                if (data.news_results && data.news_results.length > 0) {
+                    displayNews(data.news_results.slice(0, numberOfArticles));
+                    return;
+                }
+            }
+            
+            // Fall back to CORS proxy
+            console.log("Direct API call failed, trying CORS proxy...");
+            const corsProxyUrl = "https://api.allorigins.win/get?url=";
+            const targetUrl = encodeURIComponent(`https://serpapi.com/search.json?q=${encodeURIComponent(searchTerm)}&tbm=nws&api_key=${apiKey}`);
+            
+            const response = await fetch(corsProxyUrl + targetUrl);
             
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Proxy request failed: ' + response.status);
             }
             
-            const data = await response.json();
+            const responseData = await response.json();
             
-            // Check if we have news results
-            if (data.news_results && data.news_results.length > 0) {
-                displayNews(data.news_results.slice(0, numberOfArticles));
-            } else {
-                // If no results, use alternative approach with mock data
-                displayMockData();
+            // allorigins returns the content in the 'contents' property as a string
+            if (responseData && responseData.contents) {
+                try {
+                    const data = JSON.parse(responseData.contents);
+                    
+                    if (data.news_results && data.news_results.length > 0) {
+                        displayNews(data.news_results.slice(0, numberOfArticles));
+                        return;
+                    }
+                } catch (parseError) {
+                    console.error("Error parsing JSON from proxy:", parseError);
+                }
             }
+            
+            // If we get here, neither attempt worked, so use mock data
+            console.log("Using mock data as fallback");
+            displayMockData();
+            
         } catch (error) {
             console.error("Error fetching news:", error);
-            // Fall back to mock data if the API or CORS proxy fails
+            // Fall back to mock data if all API approaches fail
             displayMockData();
         }
     }
@@ -144,4 +176,15 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Initialize news fetch
     fetchNews();
+});
+
+// API endpoint for fetching news
+app.get('/api/news', async (req, res) => {
+  try {
+    const response = await fetch(`https://serpapi.com/search.json?q=lithium-ion%20battery%20fire&tbm=nws&api_key=YOUR_API_KEY`);
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
