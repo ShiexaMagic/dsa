@@ -43,6 +43,8 @@ async function fetchBatteryFireNews(container) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
     
+    console.log('Fetching news from API endpoint...');
+    
     // Make request to our serverless function
     const response = await fetch('/api/news', {
       signal: controller.signal,
@@ -173,18 +175,3 @@ function displayErrorMessage(container, message) {
 
 // Initialize news API when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initNewsApi);
-
-export default async function handler(req, res) {
-  try {
-    const apiKey = process.env.SERPAPI_KEY;
-    const query = 'Lithium-Ion Battery Fire';
-    const url = `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&tbm=nws&api_key=${apiKey}`;
-    
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch news' });
-  }
-}
