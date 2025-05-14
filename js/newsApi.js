@@ -16,9 +16,55 @@ function initNewsApi() {
   
   console.log('News container found, loading news...');
   displayLoadingState(newsContainer);
+
+  // TEMPORARY: Use sample data until API is working
+  useSampleData(newsContainer);
   
-  // Fetch news articles
-  fetchBatteryFireNews(newsContainer);
+  // Uncomment this when API is properly set up
+  // fetchBatteryFireNews(newsContainer);
+}
+
+/**
+ * Uses sample data for development
+ */
+function useSampleData(container) {
+  console.log('Using sample data for development');
+  const sampleData = {
+    "news_results": [
+      {
+        "position": 1,
+        "link": "https://www.lex18.com/news/lawrenceburg-fire-warns-public-about-lithium-ion-batteries-after-house-fire",
+        "title": "Lawrenceburg fire warns public about lithium-ion batteries after house fire",
+        "source": "LEX18",
+        "date": "2 days ago",
+        "snippet": "Lawrenceburg Fire and Rescue provided safety tips on lithium-ion batteries after a house fire on Monday was reportedly caused by an ignited battery.",
+        "thumbnail": "https://via.placeholder.com/400x250/151515/11BF4E?text=Battery+Safety"
+      },
+      {
+        "position": 2,
+        "link": "https://www.winknews.com/news/lithium-ion-battery-fire-in-the-villas-sparks-solar-panel-safety-concerns",
+        "title": "Lithium ion battery fire in the Villas sparks solar panel safety concerns",
+        "source": "Wink News",
+        "date": "4 hours ago",
+        "snippet": "A fire at a battery supply bank in a house in The Villas served as a wake-up call about the potential risks of solar energy systems.",
+        "thumbnail": "https://via.placeholder.com/400x250/151515/11BF4E?text=Solar+Safety"
+      },
+      {
+        "position": 3,
+        "link": "https://w42st.com/post/fire-555ten-hells-kitchen-lithium-ion-battery",
+        "title": "Morning Fire at 555TEN: Lithium-Ion Battery Sparks Blaze in Hell's Kitchen High-Rise",
+        "source": "W42ST",
+        "date": "2 days ago",
+        "snippet": "A 35th-floor battery fire at 555TEN prompted a resident alert, rapid FDNY response and concerns over lithium-ion safety.",
+        "thumbnail": "https://via.placeholder.com/400x250/151515/11BF4E?text=High+Rise+Safety"
+      }
+    ]
+  };
+  
+  // Display the sample data
+  setTimeout(() => {
+    displayNewsResults(sampleData, container);
+  }, 1000); // Fake loading delay
 }
 
 /**
