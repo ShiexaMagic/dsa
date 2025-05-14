@@ -6,11 +6,17 @@
 
 // Initialize news API with configuration
 function initNewsApi() {
-  const apiKey = '299d65578a5261c22a1ee82142b171057004cd8a2ea0b37ba6e02e155d3957a1';
+  console.log('Initializing news API...');
+  const apiKey = process.env.SERPAPI_KEY || '299d65578a5261c22a1ee82142b171057004cd8a2ea0b37ba6e02e155d3957a1';
   const query = 'Lithium-Ion Battery Fire';
   const newsContainer = document.getElementById('news-container');
   
-  // Show loading state
+  if (!newsContainer) {
+    console.error('News container element not found!');
+    return;
+  }
+  
+  console.log('News container found, loading news...');
   displayLoadingState(newsContainer);
   
   // Fetch news articles
@@ -38,36 +44,58 @@ function displayLoadingState(container) {
 async function fetchBatteryFireNews(apiKey, query, container) {
   try {
     // Build the API URL with parameters
-    const url = `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&tbm=nws&api_key=${apiKey}`;
+    const serpApiUrl = `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&tbm=nws&api_key=${apiKey}`;
+    
+    // Use a CORS proxy to bypass CORS restrictions
+    const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const url = corsProxyUrl + serpApiUrl;
     
     // Add timeout to prevent hanging requests
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // Increased timeout
     
-    // Fetch data from SerpAPI
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: {
-        'Accept': 'application/json'
+    try {
+      // Fetch data through the CORS proxy
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'application/json',
+          'Origin': window.location.origin
+        }
+      });
+      
+      // Clear timeout since request is complete
+      clearTimeout(timeoutId);
+      
+      // Check if request was successful
+      if (!response.ok) {
+        console.error('API returned error status:', response.status);
+        throw new Error(`API request failed with status: ${response.status}`);
       }
-    });
-    
-    // Clear timeout since request is complete
-    clearTimeout(timeoutId);
-    
-    // Check if request was successful
-    if (!response.ok) {
-      throw new Error(`API request failed with status: ${response.status}`);
+      
+      // Parse JSON response
+      const data = await response.json();
+      console.log('API response data:', data); // Log the response for debugging
+      
+      // Display the news results
+      displayNewsResults(data, container);
+    } catch (fetchError) {
+      console.error('Fetch error details:', fetchError);
+      throw fetchError;
     }
-    
-    // Parse JSON response
-    const data = await response.json();
-    
-    // Display the news results
-    displayNewsResults(data, container);
   } catch (error) {
     console.error('Error fetching battery fire news:', error);
-    displayErrorMessage(container, 'Error loading news articles. Please try again later.');
+    
+    let errorMessage = 'Error loading news articles. Please try again later.';
+    if (error.name === 'AbortError') {
+      errorMessage = 'Request timed out. Please check your internet connection and try again.';
+    } else if (error.message.includes('NetworkError')) {
+      errorMessage = 'Network error. Please check your internet connection.';
+    } else if (error.message.includes('API key')) {
+      errorMessage = 'API authentication error. Please contact support.';
+    }
+    
+    displayErrorMessage(container, errorMessage);
   }
 }
 
