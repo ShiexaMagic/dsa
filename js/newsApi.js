@@ -68,19 +68,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    // Display news in the container with improved image handling
+    // Add or update the displayNews function for better image quality
     function displayNews(articles) {
         // Clear loading placeholder
         newsContainer.innerHTML = "";
         
-        // High-quality fallback images - rotating through these for visual variety
+        // High-quality fallback images - using high-resolution Unsplash images
         const fallbackImages = [
-            "https://images.unsplash.com/photo-1593941707882-a5bba53b0999?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1626438962886-611a9453d22c?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1596998791979-1296130c2c3e?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1582983508991-59607a419255?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1605969488889-aa843a386abf?q=80&w=800&auto=format&fit=crop"
+            "https://images.unsplash.com/photo-1593941707882-a5bba53b0999?q=90&w=1200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1626438962886-611a9453d22c?q=90&w=1200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1596998791979-1296130c2c3e?q=90&w=1200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1582983508991-59607a419255?q=90&w=1200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=90&w=1200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1605969488889-aa843a386abf?q=90&w=1200&auto=format&fit=crop"
         ];
         
         // Create HTML for each article
@@ -88,24 +88,44 @@ document.addEventListener("DOMContentLoaded", function() {
             const articleCard = document.createElement("div");
             articleCard.className = "product-card bg-dark rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-primary/10";
             
-            // Improved thumbnail image handling
+            // Enhanced thumbnail handling for maximum quality
             let thumbnailUrl;
             
-            // Check if article has a high-quality thumbnail (check size if available)
-            if (article.thumbnail && article.thumbnail.includes('http')) {
+            if (article.thumbnail) {
                 thumbnailUrl = article.thumbnail;
                 
-                // If Google's thumbnail service is used, modify to request larger size
+                // Check for different image services and optimize URL for quality
+                
+                // For Google CDN images
                 if (thumbnailUrl.includes('googleusercontent.com')) {
-                    thumbnailUrl = thumbnailUrl.replace(/=w\d+-h\d+/, '=w800-h450');
+                    thumbnailUrl = thumbnailUrl.replace(/=w\d+-h\d+/, '=w1200-h800').replace(/=s\d+/, '=s1200');
                 }
                 
-                // If other common image services, add size parameters when possible
-                if (thumbnailUrl.includes('wp.com')) {
-                    thumbnailUrl = thumbnailUrl + '?w=800';
+                // For WordPress-hosted images
+                else if (thumbnailUrl.includes('wp.com') || thumbnailUrl.includes('wordpress.com')) {
+                    thumbnailUrl = thumbnailUrl.includes('?') 
+                        ? thumbnailUrl + '&w=1200&q=90' 
+                        : thumbnailUrl + '?w=1200&q=90';
+                }
+                
+                // For Brightspot/Times sites (like LA Times in the example)
+                else if (thumbnailUrl.includes('brightspot')) {
+                    // Already good quality
+                }
+                
+                // For generic CDNs - add quality parameters
+                else if (thumbnailUrl.includes('cdn.') || thumbnailUrl.includes('.cloudfront.')) {
+                    thumbnailUrl = thumbnailUrl.includes('?')
+                        ? thumbnailUrl + '&quality=90&width=1200'
+                        : thumbnailUrl + '?quality=90&width=1200';
+                }
+                
+                // If URL contains 'resize' but with small dimensions, upgrade it
+                else if (thumbnailUrl.match(/resize\/\d+x\d+/)) {
+                    thumbnailUrl = thumbnailUrl.replace(/resize\/\d+x\d+/, 'resize/1200x800');
                 }
             } else {
-                // Use rotating high-quality fallback images
+                // Use high-quality fallback images
                 thumbnailUrl = fallbackImages[index % fallbackImages.length];
             }
             
@@ -133,14 +153,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
             `;
             
-            // Add a lazy loading attribute to images
+            // Enhanced image error handling with priority-based fallbacks
             const imgElement = articleCard.querySelector('img');
             if (imgElement) {
+                // Add lazy loading attribute
                 imgElement.setAttribute('loading', 'lazy');
                 
-                // Handle image loading errors by falling back to default images
+                // Add fetchpriority for key images
+                if (index < 3) {
+                    imgElement.setAttribute('fetchpriority', 'high');
+                }
+                
+                // Setup progressive enhancement
+                imgElement.style.backgroundColor = '#151515'; // Base color while loading
+                
+                // Enhanced error handling
                 imgElement.onerror = function() {
-                    this.src = fallbackImages[index % fallbackImages.length];
+                    // First try: If SerpAPI thumbnail fails, try thumbnail_small if available
+                    if (article.thumbnail_small) {
+                        this.src = article.thumbnail_small;
+                        
+                        // Setup second fallback if that also fails
+                        this.onerror = function() {
+                            this.src = fallbackImages[index % fallbackImages.length];
+                        };
+                    } else {
+                        // Direct fallback to Unsplash image
+                        this.src = fallbackImages[index % fallbackImages.length];
+                    }
                 };
             }
             
