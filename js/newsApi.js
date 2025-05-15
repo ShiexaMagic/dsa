@@ -87,12 +87,12 @@ document.addEventListener("DOMContentLoaded", function() {
         
         // Ultra high-quality fallback images - using battery/technology themed images
         const fallbackImages = [
-            "https://img.freepik.com/free-photo/3d-battery-recycling-concept_23-2149320526.jpg?w=1800&q=95",
-            "https://img.freepik.com/free-photo/closeup-battery-charging-with-power-bank_157027-1245.jpg?w=1800&q=95",
-            "https://img.freepik.com/free-photo/batteries-emitting-fire-smoke_23-2149397388.jpg?w=1800&q=95",
-            "https://img.freepik.com/free-photo/still-life-burning-lithium-ion-battery_23-2149397392.jpg?w=1800&q=95",
-            "https://img.freepik.com/free-photo/white-hot-sparks-flying-off-burning-battery_23-2149397382.jpg?w=1800&q=95",
-            "https://img.freepik.com/free-photo/closeup-lithium-battery-electric-car_53876-110282.jpg?w=1800&q=95"
+           "https://img.freepik.com/free-photo/batteries-emitt…94b1ce84694ac28255a19bc072bed209caebc02a30&w=1380",
+            "https://img.freepik.com/free-photo/still-life-burn…8cae70e5d015103797f759048d750491c7bfb4ab64&w=1380",
+            "https://img.freepik.com/free-photo/close-up-burnin…7893f7d3ed9fe393a09acb93ac09fafd4afc4fe9f1&w=1380",
+            "https://img.freepik.com/free-photo/batteries-emitt…94b1ce84694ac28255a19bc072bed209caebc02a30&w=1380",
+            "https://img.freepik.com/free-photo/still-life-burn…8cae70e5d015103797f759048d750491c7bfb4ab64&w=1380",
+            "https://img.freepik.com/free-photo/close-up-burnin…7893f7d3ed9fe393a09acb93ac09fafd4afc4fe9f1&w=1380"
         ];
         
         // Create HTML for each article
