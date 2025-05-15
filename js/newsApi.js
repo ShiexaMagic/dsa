@@ -121,6 +121,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Google CDN
                 else if (thumbnailUrl.includes('googleusercontent.com')) {
                     thumbnailUrl = thumbnailUrl.replace(/=w\d+-h\d+/, '=w1800-h1200').replace(/=s\d+/, '=s1800');
+                    // For newer Google image URLs
+                    thumbnailUrl = thumbnailUrl.replace(/=rw-e\d+/, '=rw-e1800').replace(/=w\d+/, '=w1800');
                 }
                 // WordPress
                 else if (thumbnailUrl.includes('wp.com') || thumbnailUrl.includes('wordpress.com')) {
@@ -147,6 +149,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 else if (thumbnailUrl.match(/resize\/\d+x\d+/)) {
                     thumbnailUrl = thumbnailUrl.replace(/resize\/\d+x\d+/, 'resize/1800x1200');
                 }
+                // Imgix CDN
+                else if (thumbnailUrl.includes('imgix.net')) {
+                    thumbnailUrl = thumbnailUrl.includes('?')
+                        ? thumbnailUrl + '&w=1800&q=95&auto=format'
+                        : thumbnailUrl + '?w=1800&q=95&auto=format';
+                }
+                // Cloudinary CDN
+                else if (thumbnailUrl.includes('cloudinary.com')) {
+                    // Replace any existing transformations with our high-quality ones
+                    if (thumbnailUrl.includes('/upload/')) {
+                        thumbnailUrl = thumbnailUrl.replace(/\/upload\/.*?\//, '/upload/w_1800,q_auto:best,f_auto/');
+                    }
+                }
+                // For Getty Images
+                else if (thumbnailUrl.includes('gettyimages')) {
+                    thumbnailUrl = thumbnailUrl.replace(/\d+x\d+/, '1800x1200');
+                }
+                // For known news sites with dynamic image resizing
+                else if (thumbnailUrl.match(/\/(resize|resizer|width|size)\/\d+/)) {
+                    thumbnailUrl = thumbnailUrl.replace(/\/(resize|resizer|width|size)\/\d+/, '/$1/1800');
+                }
+                // For URLs with dimensions in query params
+                else if (thumbnailUrl.match(/[\?&](w|width)=\d+/)) {
+                    thumbnailUrl = thumbnailUrl.replace(/([?&])(w|width)=\d+/g, '$1$2=1800');
+                    if (!thumbnailUrl.includes('quality') && !thumbnailUrl.includes('q=')) {
+                        thumbnailUrl += thumbnailUrl.includes('?') ? '&quality=95' : '?quality=95';
+                    }
+                }
             } else {
                 // Default placeholder if no thumbnail
                 thumbnailUrl = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
@@ -167,93 +197,149 @@ document.addEventListener("DOMContentLoaded", function() {
                         publishedDate = new Date(article.date).toLocaleDateString();
                     } else {
                         // Try direct parsing, fallback to "Recent" if it fails
-                        const dateObj = new Date(article.date);
-                        publishedDate = isNaN(dateObj) ? "Recent" : dateObj.toLocaleDateString();
+                        publishedDate = "Recent";
                     }
                 } catch (e) {
                     console.warn("Could not parse date:", article.date);
                     publishedDate = "Recent";
                 }
             }
+
+            const imgElement = document.createElement("img");
+            imgElement.src = thumbnailUrl;
+            imgElement.alt = article.title;
+            imgElement.className = "w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110";
             
-            articleCard.innerHTML = `
-                <div class="relative overflow-hidden h-48 group">
-                    <img src="${thumbnailUrl}" alt="${article.title}" 
-                         class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-darker/90 via-darker/30 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 p-4">
-                        <span class="bg-primary text-white text-xs px-3 py-1 rounded-full shadow-md">News</span>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-3 hover:text-primary transition line-clamp-2">${article.title}</h3>
-                    <p class="text-slate-400 text-sm mb-4 line-clamp-3">${article.snippet || "Read the full article for more details."}</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs text-slate-500">${publishedDate}</span>
-                        <a href="${article.link}" target="_blank" class="text-primary inline-flex items-center text-sm hover:text-white transition">
-                            Read More
-                        </a>
-                    </div>
-                </div>
-            `;
-            
-            // Enhanced image error handling with priority-based fallbacks
-            const imgElement = articleCard.querySelector('img');
-            if (imgElement) {
-                // Force proper dimensions to avoid browser rescaling artifacts
-                imgElement.width = 800;  
-                imgElement.height = 450;
-                
-                // Add additional attributes for quality
-                imgElement.setAttribute('loading', 'lazy');
-                imgElement.setAttribute('decoding', 'async');
-                
-                // Add fetchpriority for key images
-                if (index < 3) {
-                    imgElement.setAttribute('fetchpriority', 'high');
-                }
-                
-                // Setup progressive enhancement
-                imgElement.style.backgroundColor = '#151515'; // Base color while loading
-                
-                // Enhanced error handling
-                imgElement.onerror = function() {
-                    // First try: If SerpAPI thumbnail fails, try thumbnail_small if available
-                    if (article.thumbnail_small) {
-                        this.src = article.thumbnail_small;
+            // Enhanced error handling
+            imgElement.onerror = function() {
+                // First try: If SerpAPI thumbnail fails, try thumbnail_small if available
+                if (article.thumbnail_small) {
+                    this.src = article.thumbnail_small;
+                    
+                    // Setup second fallback if that also fails
+                    this.onerror = function() {
+                        // Try to derive an image from the source domain
+                        const originalUrl = new URL(article.link);
+                        const domain = originalUrl.hostname;
+                        const domainParts = domain.split('.');
+                        const siteName = domainParts.length > 1 ? domainParts[domainParts.length - 2] : domain;
                         
-                        // Setup second fallback if that also fails
+                        // Try a domain-based image
+                        this.src = `https://logo.clearbit.com/${domain}?size=1800`;
+                        
+                        // Third fallback - domain logo failed, use our high-quality stock images
                         this.onerror = function() {
-                            // Try to derive an image from the source domain
-                            const originalUrl = new URL(article.link);
-                            const domain = originalUrl.hostname;
-                            const domainParts = domain.split('.');
-                            const siteName = domainParts.length > 1 ? domainParts[domainParts.length - 2] : domain;
+                            // Try stock images based on search terms in the title
+                            const keywords = ['battery', 'fire', 'lithium', 'safety', 'electric', 'technology'];
+                            const matchedKeywords = keywords.filter(keyword => 
+                                article.title.toLowerCase().includes(keyword));
                             
-                            // Try a domain-based image
+                            if (matchedKeywords.length > 0) {
+                                // Use the first matched keyword to find a relevant stock image
+                                const keyword = matchedKeywords[0];
+                                const stockImages = {
+                                    'battery': 'https://images.unsplash.com/photo-1593941707882-a5bba53b0999?q=95&w=1800&auto=format&fit=crop',
+                                    'fire': 'https://images.unsplash.com/photo-1625324900743-021238f77615?q=95&w=1800&auto=format&fit=crop',
+                                    'lithium': 'https://images.unsplash.com/photo-1626438962886-611a9453d22c?q=95&w=1800&auto=format&fit=crop',
+                                    'safety': 'https://images.unsplash.com/photo-1577009683331-5d8ec347bc38?q=95&w=1800&auto=format&fit=crop',
+                                    'electric': 'https://images.unsplash.com/photo-1596998791979-1296130c2c3e?q=95&w=1800&auto=format&fit=crop',
+                                    'technology': 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=95&w=1800&auto=format&fit=crop'
+                                };
+                                
+                                this.src = stockImages[keyword];
+                                
+                                // Final fallback if even the keyword-based image fails
+                                this.onerror = function() {
+                                    this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
+                                };
+                            } else {
+                                this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
+                            }
+                        };
+                    };
+                } else {
+                    // If no thumbnail_small, try using source favicon or domain logo
+                    try {
+                        const originalUrl = new URL(article.link);
+                        const domain = originalUrl.hostname;
+                        
+                        // Try getting high-quality favicon first
+                        this.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+                        
+                        this.onerror = function() {
+                            // Try clearbit logo as fallback
                             this.src = `https://logo.clearbit.com/${domain}?size=1800`;
                             
-                            // Third fallback - domain logo failed, use our high-quality stock images
+                            // Final fallback
                             this.onerror = function() {
                                 this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
                             };
                         };
-                    } else {
+                    } catch (e) {
                         // Direct fallback to placeholder image
                         this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
                     }
-                };
+                }
+            };
 
-                imgElement.onload = function() {
-                    if (this.naturalWidth < 200 || this.naturalHeight < 120) {
-                        this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
+            imgElement.onload = function() {
+                // Replace extremely small images with placeholder
+                if (this.naturalWidth < 200 || this.naturalHeight < 120) {
+                    this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
+                }
+                
+                // Check for transparent or blank images (common issue with some CDNs)
+                if (this.src.includes('googleusercontent.com') || this.src.includes('serpapi.com')) {
+                    // Create an offscreen canvas to analyze image content
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = Math.min(this.naturalWidth, 50); // Sample a small portion
+                    canvas.height = Math.min(this.naturalHeight, 50);
+                    
+                    try {
+                        ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+                        
+                        // Check if the image is blank or mostly transparent
+                        let blankPixels = 0;
+                        let totalPixels = imageData.length / 4;
+                        
+                        for (let i = 0; i < imageData.length; i += 4) {
+                            // If pixel is white or transparent
+                            if ((imageData[i+3] < 10) || // Almost transparent
+                                (imageData[i] > 250 && imageData[i+1] > 250 && imageData[i+2] > 250)) { // Almost white
+                                blankPixels++;
+                            }
+                        }
+                        
+                        // If more than 95% of pixels are blank
+                        if (blankPixels / totalPixels > 0.95) {
+                            this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
+                        }
+                    } catch (e) {
+                        console.warn("Error analyzing image data:", e);
                     }
-                };
-            }
-            
+                }
+            };
+
+            articleCard.innerHTML = `
+                <div class="relative overflow-hidden h-48 group">
+                    <img src="${thumbnailUrl}" alt="${article.title}" class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-darker/90 via-darker/30 to-transparent"></div>
+                </div>
+                <div class="p-6">
+                    <span class="text-xs text-slate-500">${publishedDate}</span>
+                    <h3 class="text-lg font-bold mb-3 hover:text-primary transition line-clamp-2">${article.title}</h3>
+                    <p class="text-sm text-slate-400 mb-4 line-clamp-3">${article.snippet || "Read the full article for more details."}</p>
+                    <a href="${article.link}" target="_blank" class="text-primary inline-flex items-center text-sm hover:text-white transition">
+                        Read More
+                    </a>
+                </div>
+            `;
+
             newsContainer.appendChild(articleCard);
         });
-        
+
         // Make "View All Articles" button functional (but with no icon)
         const viewAllButton = document.querySelector("#news .text-center a");
         if (viewAllButton) {
