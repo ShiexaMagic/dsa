@@ -85,16 +85,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Clear loading placeholder
         newsContainer.innerHTML = "";
         
-        // Ultra high-quality fallback images - using battery/technology themed images
-        const fallbackImages = [
-           "https://img.freepik.com/free-photo/batteries-emitt…94b1ce84694ac28255a19bc072bed209caebc02a30&w=1380",
-            "https://img.freepik.com/free-photo/still-life-burn…8cae70e5d015103797f759048d750491c7bfb4ab64&w=1380",
-            "https://img.freepik.com/free-photo/close-up-burnin…7893f7d3ed9fe393a09acb93ac09fafd4afc4fe9f1&w=1380",
-            "https://img.freepik.com/free-photo/batteries-emitt…94b1ce84694ac28255a19bc072bed209caebc02a30&w=1380",
-            "https://img.freepik.com/free-photo/still-life-burn…8cae70e5d015103797f759048d750491c7bfb4ab64&w=1380",
-            "https://img.freepik.com/free-photo/close-up-burnin…7893f7d3ed9fe393a09acb93ac09fafd4afc4fe9f1&w=1380"
-        ];
-        
         // Create HTML for each article
         articles.forEach((article, index) => {
             const articleCard = document.createElement("div");
@@ -124,7 +114,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else if (domain.includes('theguardian.com')) {
                         thumbnailUrl = `https://i.guim.co.uk/img/media/placeholder-${index}/0/0/3500/2100/master/3500.jpg?width=1800&quality=95&auto=format`;
                     } else {
-                        thumbnailUrl = fallbackImages[index % fallbackImages.length];
+                        // Default to a placeholder image
+                        thumbnailUrl = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
                     }
                 }
                 // Google CDN
@@ -157,7 +148,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     thumbnailUrl = thumbnailUrl.replace(/resize\/\d+x\d+/, 'resize/1800x1200');
                 }
             } else {
-                thumbnailUrl = fallbackImages[index % fallbackImages.length];
+                // Default placeholder if no thumbnail
+                thumbnailUrl = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
             }
             
             // Format date - FIX for invalid date issue
@@ -243,18 +235,18 @@ document.addEventListener("DOMContentLoaded", function() {
                             
                             // Third fallback - domain logo failed, use our high-quality stock images
                             this.onerror = function() {
-                                this.src = fallbackImages[index % fallbackImages.length];
+                                this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
                             };
                         };
                     } else {
-                        // Direct fallback to Unsplash image
-                        this.src = fallbackImages[index % fallbackImages.length];
+                        // Direct fallback to placeholder image
+                        this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
                     }
                 };
 
                 imgElement.onload = function() {
                     if (this.naturalWidth < 200 || this.naturalHeight < 120) {
-                        this.src = fallbackImages[index % fallbackImages.length];
+                        this.src = `https://placehold.co/1800x1200/151515/CCCCCC?text=News+${index+1}`;
                     }
                 };
             }
