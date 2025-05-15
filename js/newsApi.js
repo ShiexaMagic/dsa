@@ -85,14 +85,14 @@ document.addEventListener("DOMContentLoaded", function() {
         // Clear loading placeholder
         newsContainer.innerHTML = "";
         
-        // Ultra high-quality fallback images - using high-resolution Unsplash images at 95% quality
+        // Ultra high-quality fallback images - using battery/technology themed images
         const fallbackImages = [
-            "https://images.unsplash.com/photo-1593941707882-a5bba53b0999?q=95&w=1800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1626438962886-611a9453d22c?q=95&w=1800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1596998791979-1296130c2c3e?q=95&w=1800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1582983508991-59607a419255?q=95&w=1800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=95&w=1800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1605969488889-aa843a386abf?q=95&w=1800&auto=format&fit=crop"
+            "https://img.freepik.com/free-photo/3d-battery-recycling-concept_23-2149320526.jpg?w=1800&q=95",
+            "https://img.freepik.com/free-photo/closeup-battery-charging-with-power-bank_157027-1245.jpg?w=1800&q=95",
+            "https://img.freepik.com/free-photo/batteries-emitting-fire-smoke_23-2149397388.jpg?w=1800&q=95",
+            "https://img.freepik.com/free-photo/still-life-burning-lithium-ion-battery_23-2149397392.jpg?w=1800&q=95",
+            "https://img.freepik.com/free-photo/white-hot-sparks-flying-off-burning-battery_23-2149397382.jpg?w=1800&q=95",
+            "https://img.freepik.com/free-photo/closeup-lithium-battery-electric-car_53876-110282.jpg?w=1800&q=95"
         ];
         
         // Create HTML for each article
