@@ -105,46 +105,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (article.thumbnail) {
                 thumbnailUrl = article.thumbnail;
-                
-                // Check if image is from SerpAPI (typically low resolution)
-                if (thumbnailUrl.includes('serpapi.com/searches')) {
-                    // First attempt - Try to find a higher quality version by removing size restrictions
-                    // Many SerpAPI images are thumbnails of larger originals
+
+                // Check for SerpAPI low-res thumbnails (any size under 150px)
+                const lowResMatch = thumbnailUrl.match(/\/(\d+)x(\d+)\//);
+                if (
+                    thumbnailUrl.includes('serpapi.com/searches') &&
+                    lowResMatch &&
+                    (parseInt(lowResMatch[1]) < 150 || parseInt(lowResMatch[2]) < 150)
+                ) {
+                    // Try to use a domain-specific high-res image
                     const originalUrl = new URL(article.link);
                     const domain = originalUrl.hostname;
-                    
-                    // For super low-res images (under 100px), use AI upscaling or alternative source
-                    if (thumbnailUrl.match(/\/\d+x\d+\//) && thumbnailUrl.match(/\/\d+x\d+\//).toString().includes('92x92')) {
-                        // Replace with domain-specific higher quality images when possible
-                        if (domain.includes('reuters.com')) {
-                            thumbnailUrl = `https://www.reuters.com/resizer/placeholder-${index}/_w_1800/_h_1200/reutersmedia/api/`;
-                        } else if (domain.includes('bbc.com') || domain.includes('bbc.co.uk')) {
-                            thumbnailUrl = `https://ichef.bbci.co.uk/news/1024/branded_news/placeholder-${index}/production/_130000000.jpg`;
-                        } else if (domain.includes('theguardian.com')) {
-                            thumbnailUrl = `https://i.guim.co.uk/img/media/placeholder-${index}/0/0/3500/2100/master/3500.jpg?width=1800&quality=95&auto=format`;
-                        } else {
-                            // Use AI-powered image upscaling service (if available)
-                            // Fall back to our high-quality alternatives
-                            thumbnailUrl = fallbackImages[index % fallbackImages.length];
-                        }
+
+                    if (domain.includes('reuters.com')) {
+                        thumbnailUrl = `https://www.reuters.com/resizer/placeholder-${index}/_w_1800/_h_1200/reutersmedia/api/`;
+                    } else if (domain.includes('bbc.com') || domain.includes('bbc.co.uk')) {
+                        thumbnailUrl = `https://ichef.bbci.co.uk/news/1024/branded_news/placeholder-${index}/production/_130000000.jpg`;
+                    } else if (domain.includes('theguardian.com')) {
+                        thumbnailUrl = `https://i.guim.co.uk/img/media/placeholder-${index}/0/0/3500/2100/master/3500.jpg?width=1800&quality=95&auto=format`;
+                    } else {
+                        thumbnailUrl = fallbackImages[index % fallbackImages.length];
                     }
                 }
-                
-                // For Google CDN images
+                // Google CDN
                 else if (thumbnailUrl.includes('googleusercontent.com')) {
                     thumbnailUrl = thumbnailUrl.replace(/=w\d+-h\d+/, '=w1800-h1200').replace(/=s\d+/, '=s1800');
                 }
-                
-                // For WordPress-hosted images
+                // WordPress
                 else if (thumbnailUrl.includes('wp.com') || thumbnailUrl.includes('wordpress.com')) {
-                    thumbnailUrl = thumbnailUrl.includes('?') 
-                        ? thumbnailUrl + '&w=1800&q=95' 
+                    thumbnailUrl = thumbnailUrl.includes('?')
+                        ? thumbnailUrl + '&w=1800&q=95'
                         : thumbnailUrl + '?w=1800&q=95';
                 }
-                
-                // For Brightspot/Times sites (like LA Times in the example)
+                // Brightspot/Times
                 else if (thumbnailUrl.includes('brightspot')) {
-                    // Check if we can increase the dimensions and quality
                     if (thumbnailUrl.includes('resize')) {
                         thumbnailUrl = thumbnailUrl.replace(/resize\/\d+x\d+/, 'resize/1800x1200');
                     }
@@ -152,20 +146,17 @@ document.addEventListener("DOMContentLoaded", function() {
                         thumbnailUrl = thumbnailUrl.replace(/quality\/\d+/, 'quality/95');
                     }
                 }
-                
-                // For generic CDNs - add quality parameters
+                // Generic CDN
                 else if (thumbnailUrl.includes('cdn.') || thumbnailUrl.includes('.cloudfront.')) {
                     thumbnailUrl = thumbnailUrl.includes('?')
                         ? thumbnailUrl + '&quality=95&width=1800'
                         : thumbnailUrl + '?quality=95&width=1800';
                 }
-                
-                // If URL contains 'resize' but with small dimensions, upgrade it
+                // Any resize param
                 else if (thumbnailUrl.match(/resize\/\d+x\d+/)) {
                     thumbnailUrl = thumbnailUrl.replace(/resize\/\d+x\d+/, 'resize/1800x1200');
                 }
             } else {
-                // Use high-quality fallback images
                 thumbnailUrl = fallbackImages[index % fallbackImages.length];
             }
             
@@ -257,6 +248,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         };
                     } else {
                         // Direct fallback to Unsplash image
+                        this.src = fallbackImages[index % fallbackImages.length];
+                    }
+                };
+
+                imgElement.onload = function() {
+                    if (this.naturalWidth < 200 || this.naturalHeight < 120) {
                         this.src = fallbackImages[index % fallbackImages.length];
                     }
                 };
